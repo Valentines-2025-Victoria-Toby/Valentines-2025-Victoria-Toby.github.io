@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Be My Valentine? 💝</title>
+        <link href='https://fonts.googleapis.com/css?family=Cute Font' rel='stylesheet'>
+        <style>
+            * {
+                font-family: 'Cute Font';
+                font-size: 60px;
+                user-select: none;
+            }
+
+            body {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                transition: background-color 1s ease;
+                position: relative;
+                overflow: hidden;
+                justify-content: center;
+                height: 100vh;
+                margin: 0;
+                background: linear-gradient(135deg, #ffebee 0%, #fce4ec 100%);
+                overflow: hidden;
+            }
+
+            .container {
+                text-align: center;
+                position: relative;
+                z-index: 1;
+            }
+
+            h1 {
+                color: #e91e63;
+                margin-bottom: 30px;
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            }
+
+            .buttons {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 20px;
+            }
+
+            button {
+                padding: 10px 30px;
+                font-size: 50px;
+                cursor: pointer;
+                border: none;
+                border-radius: 15px;
+                transition: all 0.3s ease;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            }
+
+            #yesBtn {
+                opacity: 0;
+                background-color: #e91e63;
+                color: white;
+                position: relative;
+                overflow: hidden;
+                transition: all 0.5s ease-out;
+            }
+
+            #yesBtn::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(
+                    120deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.3),
+                    transparent
+                );
+                transition: 0.5s;
+            }
+
+            #yesBtn:hover::before {
+                left: 100%;
+            }
+
+            #noBtn {
+                opacity: 0;
+                background-color: #9e9e9e;
+                color: white;
+                position: relative;
+                transition: all 0.5s ease-out;
+            }
+
+            #yesBtn:hover {
+                transform: scale(1.3);
+                background-color: #e91e63;
+                box-shadow: 0 6px 20px rgba(233, 30, 99, 0.3);
+            }
+
+            .animation-1 {
+                animation: dropBounce 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+            }
+            .animation-2 {
+                animation: dropBounce 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+                animation-delay: 0.5s;
+            }
+            .animation-3 {
+                animation: dropBounce 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+                animation-delay: 0.8s;
+            }
+
+            @keyframes dropBounce {
+                0% {
+                    transform: translateY(-100vh);
+                    opacity: 0;
+                }
+                70% {
+                    transform: translateY(10px);
+                    opacity: 1;
+                }
+                85% {
+                    transform: translateY(-5px);
+                }
+                100% {
+                    transform: translateY(0);
+                    opacity: 1;
+                }
+            }
+
+            .heart {
+                position: absolute;
+                width: 20px;
+                height: 20px;
+                background: rgba(233, 30, 99, 0.3);
+                transform: rotate(45deg);
+                animation: floatHeart 4s ease-in infinite;
+            }
+
+            .heart::before,
+            .heart::after {
+                content: '';
+                position: absolute;
+                width: 20px;
+                height: 20px;
+                border-radius: 50%;
+                background: rgba(233, 30, 99, 0.3);
+            }
+
+            .heart::before {
+                left: -10px;
+            }
+
+            .heart::after {
+                top: -10px;
+            }
+
+            @keyframes floatHeart {
+                0% {
+                    transform: rotate(45deg) translateY(0) scale(0);
+                    opacity: 0;
+                }
+                50% {
+                    opacity: 0.6;
+                }
+                100% {
+                    transform: rotate(45deg) translateY(-100vh) scale(1);
+                    opacity: 0;
+                }
+            }
+
+            .slideshows {
+                position: fixed;
+                width: 100%;
+                height: 100%;
+                display: none;
+                justify-content: space-between;
+                pointer-events: none;
+                z-index: 1;
+            }
+
+            .slideshow {
+                width: 300px;
+                height: 100vh; /* Full height of viewport */
+                position: relative;
+                opacity: 0;
+                transition: opacity 1s ease;
+                overflow: hidden;
+            }
+
+            .slideshow.left {
+                margin-left: 50px;
+            }
+
+            .slideshow.right {
+                margin-right: 50px;
+            }
+
+            .slide-track {
+                display: flex;
+                flex-direction: column; /* Changed to column for vertical sliding */
+                height: calc(400px * 6); /* Height of image * number of images */
+                animation: scroll 20s linear infinite;
+            }
+
+            .slideshow.right .slide-track {
+                animation-direction: reverse; /* Make right slideshow go opposite direction */
+            }
+
+            .slide-track img {
+                width: 300px;
+                height: 400px;
+                object-fit: cover;
+                border-radius: 15px;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+                margin-bottom: 20px; /* Space between images */
+            }
+
+            @keyframes scroll {
+                0% {
+                    transform: translateY(0);
+                }
+                100% {
+                    transform: translateY(calc(-400px * 3)); /* Height of image * (number of unique images) */
+                }
+            }
+
+            /* Pause animation on hover */
+            .slideshow:hover .slide-track {
+                animation-play-state: paused;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="hearts"></div>
+        <div class="container">
+            <h1 class="animation-1">Will you be my Valentine? ❤️</h1>
+            <div class="buttons">
+                <button class="button animation-2" id="yesBtn" onclick="hideButtons()">Yes</button>
+                <button class="animation-3" id="noBtn">No</button>
+            </div>
+        </div>
+        <div class="slideshows">
+            <div class="slideshow left">
+                <div class="slide-track">
+                    <img src="Media/2PeasInaPod.jpg">
+                    <img src="Media/ClubbingToby.jpg">
+                    <img src="Media/ClubbingTor.jpg">
+                    <img src="Media/MyFlowers.jpg">
+                    <img src="Media/TobyAndTorAfterUKST.jpg">
+                    <img src="Media/TorChristmasTottenhamCourtRoad.jpg">
+                </div>
+            </div>
+            <div class="slideshow right">
+                <div class="slide-track">
+                    <img src="Media/CoffeAtGolf.jpg">
+                    <img src="Media/EveryonrAactiveGym-Workout.jpg">
+                    <img src="Media/TorCatKiss.jpg">
+                    <img src="Media/TorValentines.jpg">
+                    <img src="Media/TobyTorWinterwonderlandSlide.jpg">
+                    <img src="Media/TorWeirdFood.jpg">
+                </div>
+            </div>
+        </div>
+
+        <script>
+            window.onload = function() {
+                const images = document.querySelectorAll('.slideshow img');
+                images.forEach(img => {
+                    const tmpImg = new Image();
+                    tmpImg.src = img.src;
+                });
+            };
+            class ValentineGame {
+                constructor() {
+                    this.elements = {
+                        heartsContainer: document.querySelector('.hearts'),
+                        noBtn: document.getElementById('noBtn'),
+                        yesBtn: document.getElementById('yesBtn'),
+                        heading: document.querySelector('h1')
+                    };
+                    this.config = {
+                        heartInterval: 300,
+                        buttonMoveDistance: 100,
+                        buttonMoveDelay: 100,
+                        circleExpandDelay: 100,
+                        textChangeDelay: 500,
+                        buttonsFadeDelay: 1000
+                    };
+
+                    this.isDragging = false;
+                    this.init();
+                    window.accepted = this.accepted.bind(this);
+                }
+
+                init() {
+                    setInterval(() => this.createHeart(), this.config.heartInterval);
+                    this.elements.noBtn.addEventListener('mouseover', (e) => {
+                        if (!this.isDragging) {
+                            this.moveButton(e);
+                        }
+                    });
+
+                    this.elements.yesBtn.addEventListener('click', () => this.accepted());
+                }
+
+                createHeart() {
+                    const heart = document.createElement('div');
+                    heart.classList.add('heart');
+                    heart.style.left = `${Math.random() * 100}vw`;
+                    heart.style.bottom = '-20px';
+                    heart.addEventListener('animationend', () => heart.remove());
+                    this.elements.heartsContainer.appendChild(heart);
+                }
+
+                moveButton(e) {
+                    this.isDragging = true;
+                    const btn = this.elements.noBtn;
+                    const btnRect = btn.getBoundingClientRect();
+                    const btnCenter = {
+                        x: btnRect.left + btnRect.width / 2,
+                        y: btnRect.top + btnRect.height / 2
+                    };
+                    
+                    const mouse = {
+                        x: e.clientX,
+                        y: e.clientY
+                    };
+
+                    const angleRad = Math.atan2(btnCenter.y - mouse.y, btnCenter.x - mouse.x);
+                    const newPosition = {
+                        x: btnCenter.x + Math.cos(angleRad) * this.config.buttonMoveDistance,
+                        y: btnCenter.y + Math.sin(angleRad) * this.config.buttonMoveDistance
+                    };
+                    const bounds = {
+                        maxX: window.innerWidth - btnRect.width,
+                        maxY: window.innerHeight - btnRect.height
+                    };
+
+                    const boundedPosition = {
+                        x: Math.min(Math.max(0, newPosition.x - btnRect.width / 2), bounds.maxX),
+                        y: Math.min(Math.max(0, newPosition.y - btnRect.height / 2), bounds.maxY)
+                    };
+                    Object.assign(btn.style, {
+                        position: 'fixed',
+                        transition: 'all 0.3s ease-out',
+                        left: `${boundedPosition.x}px`,
+                        top: `${boundedPosition.y}px`
+                    });
+
+                    setTimeout(() => {
+                        this.isDragging = false;
+                    }, this.config.buttonMoveDelay);
+                }
+            }
+            document.addEventListener('DOMContentLoaded', () => {
+                new ValentineGame();
+            });
+
+            function hideButtons() {
+                const yesBtn = document.getElementById('yesBtn');
+                const noBtn = document.getElementById('noBtn');
+                const slideshows = document.querySelector('.slideshows');
+                
+                // Create and animate the circle
+                const btnRect = yesBtn.getBoundingClientRect();
+                const circleSize = Math.max(window.innerWidth, window.innerHeight) * 2;
+                
+                const circle = document.createElement('div');
+                Object.assign(circle.style, {
+                    position: 'fixed',
+                    left: `${btnRect.left + btnRect.width/2}px`,
+                    top: `${btnRect.top + btnRect.height/2}px`,
+                    width: '0',
+                    height: '0',
+                    backgroundColor: '#e91e63',
+                    borderRadius: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    transition: 'all 1s cubic-bezier(0.86, 0, 0.07, 1)',
+                    zIndex: '-1'
+                });
+                
+                document.body.appendChild(circle);
+                
+                // Animate the circle
+                setTimeout(() => {
+                    circle.style.width = `${circleSize}px`;
+                    circle.style.height = `${circleSize}px`;
+                }, 100);
+
+                // Hide buttons
+                yesBtn.style.transition = 'opacity 0.5s';
+                noBtn.style.transition = 'opacity 0.5s';
+                yesBtn.style.opacity = '0';
+                noBtn.style.opacity = '0';
+                
+                // Show slideshows
+                setTimeout(() => {
+                    slideshows.style.display = 'flex';
+                    document.querySelector('.slideshow.left').style.opacity = '1';
+                    document.querySelector('.slideshow.right').style.opacity = '1';
+                }, 1000);
+
+                // Change text color to white after circle expands
+                setTimeout(() => {
+                    document.querySelector('h1').textContent = '💖 Yay! I love you! 💖';
+                    document.querySelector('h1').style.color = 'white';
+                }, 500);
+
+                setTimeout(() => {
+                    yesBtn.style.display = 'none';
+                    noBtn.style.display = 'none';
+                }, 500);
+            }
+        </script>
+    </body>
+</html>
